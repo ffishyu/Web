@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>图片轮播效果</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <script src="jquery-3.1.0.min.js"></script>
+</head>
+<body>
+    <div class="out">
+        //图片部分
+        <ul class="img">
+            <li><a href="#"><img src="1.jpg" alt=""></a></li>
+            <li><a href="#"><img src="2.jpg" alt=""></a></li>
+            <li><a href="#"><img src="3.jpg" alt=""></a></li>
+            <li><a href="#"><img src="4.jpg" alt=""></a></li>
+            <li><a href="#"><img src="5.jpg" alt=""></a></li>
+        </ul>
+        //图片页码部分  js根据图片添加
+        <ul class="num">
+
+        </ul>
+        <div class="left btn"><</div>
+        <div class="right btn">></div>
+    </div>
+<script>
+    $(function(){
+        //初始化
+
+         var size = $(".img li").length;
+          console.log(size);
+         for(var i = 1;i <= size; i++)
+         {
+         var li = "<li>"+ i +"</i>";
+         $(".num").append(li);
+         }
+
+        //手动轮播
+        $(".img li").eq(0).show();
+        $(".num li").eq(0).addClass("active");
+
+        $(".num li").mouseover(function(){
+            $(this).addClass("active").siblings().removeClass("active");
+
+            var index = $(this).index();
+            i = index;
+            $(".img li").eq(index).fadeIn().siblings().fadeOut();
+         })
+
+        var i = 0;
+        var t = setInterval(move,2500);
+        //核心向右运动函数
+        function move(){
+            i++;
+            if(i==5){
+                i = 0;
+            }
+            $(".num li").eq(i).addClass("active").siblings().removeClass("active");
+            $(".img li").eq(i).stop().fadeIn().siblings().stop().fadeOut();
+        }
+        //向左运动
+        function moveL(){
+            i--;
+            if(i==-1){
+                i = 4;
+            }
+            $(".num li").eq(i).addClass("active").siblings().removeClass("active");
+            $(".img li").eq(i).fadeIn().siblings().fadeOut();
+        }
+        $(".out .right").click(function(){
+            move();
+        })
+        $(".out .left").click(function(){
+            moveL();
+        })
+        //定时器的开始与结束
+        $(".out").hover(function(){
+            clearInterval(t);
+        },function(){
+            t=setInterval(move,1500);
+        })
+  })
+</script>
+</body>
+</html>
